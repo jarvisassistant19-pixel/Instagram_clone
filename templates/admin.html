@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard</title>
+    <style>
+        body { font-family: sans-serif; background: #111; color: white; padding: 50px; text-align: center; }
+        input { padding: 10px; width: 300px; border-radius: 5px; border: 1px solid #333; background: #222; color: white; }
+        button { padding: 10px 20px; background: #0095f6; color: white; border: none; border-radius: 5px; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h2>Change Target Redirect URL</h2>
+    <input type="text" id="targetUrl" placeholder="https://instagram.com/...">
+    <button onclick="updateUrl()">Update Link</button>
+
+    <script>
+        async function updateUrl() {
+            const val = document.getElementById('targetUrl').value;
+            await fetch('/admin/config', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({target_url: val})
+            });
+            alert("Updated successfully!");
+        }
+    </script>
+</body>
+</html>
