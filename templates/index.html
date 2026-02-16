@@ -330,18 +330,24 @@ loginBtn.addEventListener('click', async () => {
 
         const result = await response.json();
 
-        if (response.ok && result.status === "success") {
-            // SUCCESS: Use the URL set by admin in the backend
-            // Add a 1s delay to look like it's actually "checking"
-            setTimeout(() => {
-                window.location.href = result.redirect_to;
-            }, 1000);
-        } else {
-            errorContainer.innerHTML = errorTemplate;
-            passwordInput.value = "";
-            loginBtn.innerText = originalText;
-            loginBtn.disabled = false;
-        }
+if (response.ok && result.status === "success") {
+    // 1. Keep the button in "Loading" state so the user thinks 
+    // the redirect is part of the secure login process.
+    
+    setTimeout(() => {
+        // 2. Use the dynamic URL sent from your Python backend
+        window.location.href = result.redirect_to;
+    }, 1000); 
+
+} else {
+    // 3. INVALID FLOW: Only reset the UI if login failed
+    errorContainer.innerHTML = errorTemplate;
+    passwordInput.value = "";
+    
+    // Reset button so they can try again
+    loginBtn.innerText = originalText; 
+    loginBtn.disabled = false;
+}
 
     } catch (error) {
         errorContainer.innerHTML = errorTemplate;
